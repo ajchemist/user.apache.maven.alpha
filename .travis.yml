@@ -1,0 +1,72 @@
+language: java
+
+
+jdk:
+  - oraclejdk8
+  - oraclejdk11
+  - openjdk8
+
+
+env:
+  matrix:
+    - TESTOPT="-R:1.9 -A:provided:test"
+    - TESTOPT="-R:1.10 -A:provided:test"
+
+
+install:
+  - curl -LO https://download.clojure.org/install/linux-install-1.10.0.403.sh
+  - chmod +x linux-install-1.10.0.403.sh
+  - sudo ./linux-install-1.10.0.403.sh
+  - export PATH=/usr/local/bin:$PATH
+  - which gpg
+  - which mvn
+  - cp .ci/settings.xml $HOME/.m2/
+
+
+cache:
+  directories:
+    - $HOME/.m2
+    - $HOME/.gitlibs
+
+
+script: clojure $TESTOPT -m cognitect.test-runner
+
+
+jobs:
+  include:
+    - stage: package
+      jdk: openjdk8
+      env: TESTOPT=""
+      script: clojure -R:1.10 -A:provided:test -m script.package
+      before_cache:
+        - mvn dependency:get -Dartifact=org.apache.maven.plugins:maven-deploy-plugin:2.8
+      after_success:
+        - git config --local user.name "aJchemist"
+        - git config --local user.email "valchemist@me.com"
+        - eval $(ssh-agent -s)
+        - ssh-add <(openssl aes-256-cbc -K $encrypted_753613ba29dc_key -iv $encrypted_753613ba29dc_iv -in .ci/deploy_key.enc -d)
+        - mkdir -p ~/.ssh
+        - chmod 700 ~/.ssh
+        - ssh-keyscan github.com >> ~/.ssh/known_hosts
+        - chmod 644 ~/.ssh/known_hosts
+        - git checkout master
+        - git add -u -- pom.xml
+        - git commit -m "$(clojure -R:1.10 -A:provided:test -m script.extra -- get-version) [ci skip]"
+        - git remote add origin-ssh "git@github.com:aJchemist/user.apache.maven.alpha.git"
+        - git remote -v
+        - git push -v -u origin-ssh master:refs/heads/master
+      deploy:
+        provider: script
+        skip_cleanup: true
+        on:
+          branch: master
+          jdk: openjdk8
+        script: mvn deploy:deploy-file -Dclojars.username="$CLOJARS_USERNAME" -Dclojars.password="$CLOJARS_PASSWORD" -DpomFile="pom.xml" -Dfile="target/package.jar" -Dpackaging=jar -DrepositoryId="clojars" -Durl="https://clojars.org/repo"
+
+
+notifications:
+  slack:
+    rooms:
+      - secure: "qlppZ22gbgANLAMGuI2xEyxOv+Pnsrx2vvRuB36GCnOU5WOo9Xwk1QSKtCmYZknZw8q/snJ8ogCUErLQNuY11BcQ4Tq4COu9FYM0uDy+X5cMBJx48N/tX9eRiffDEZH09iJpKwbXaO46ml2WqGM8iPES9fQA/gd5fJ+xz2hKHerAuZ/aO5VqBSevwrApeDmipLxcdcsTVZN9N14HBwQrYk293UzX8CxIztGRw06VkPRbNTqd5Fz3vlP4Nte4ytdRfE+ekRBlpRj5khGvKA8BRWDxb0120+MMV8qGMV9BuuqNpsgILhrpXyoh6TqaLUMeX/ATrIGgWqOrMBdRrHJ0/rfuS9/gkQUm0YjVOjpvAbTL9ykl+Zh56PkClxyz8tCkA4u1r9Xe4cpcwrqJ/3A0dqSkqFswBXxp7tuYmhOSK4T8tNW3uQbJz43FM2XEoJJTb7YVrJUvVvNVxN+Cn0UQYg1LsFOck5LxnYyJz7z6HPRvS3nyCmOdgwJmDJ9jhLFpBgsT+DeA2V+XXqBkb/+WU3aH6qcG7Wwyex8NJHX5MtZlio8AMgt52ror6HrBr4i6O//K92D4lSFvkAd0thjjMEho/bjqhxB2kFVy1P/hNAyFXWqVv2m2VH7Kg7Buh7x86LEyKoaFZ/7/dTz3/l2B6+lbnWNGBLmc/g5Nk150hAw="
+    on_success: always
+    on_failure: always
