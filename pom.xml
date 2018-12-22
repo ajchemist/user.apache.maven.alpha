@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>user.apache.maven.alpha</groupId>
   <artifactId>user.apache.maven.alpha</artifactId>
-  <version>2018.356.52209</version>
+  <version>2018.356.83546</version>
   <repositories>
     <repository>
       <id>clojars</id>
