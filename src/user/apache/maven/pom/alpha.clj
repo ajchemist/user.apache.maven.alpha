@@ -201,3 +201,11 @@
 
 
 (set! *warn-on-reflection* false)
+
+
+(comment
+  (map
+    model-dependency
+    '{org.clojure/clojure   {:mvn/version "1.9.0" :exclusions [abc]}
+      user.tools.deps.alpha {:local/root "user.tools.deps.alpha"}})
+  )
