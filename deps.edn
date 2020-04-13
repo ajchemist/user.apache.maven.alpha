@@ -8,6 +8,8 @@
   {:extra-deps
    {
     org.apache.maven/maven-model {:mvn/version "3.5.4"}
+    ;; user.apache.maven.script
+    org.clojure/tools.cli        {:mvn/version "1.0.194"}
     }}
 
 
@@ -15,11 +17,14 @@
   {:extra-paths ["test"]
    :extra-deps
    {
-    com.cognitect/test-runner    {:git/url "https://github.com/cognitect-labs/test-runner.git" :sha "028a6d41ac9ac5d5c405dfc38e4da6b4cc1255d5"}
-    org.clojure/tools.cli        {:mvn/version "0.4.1"}
-    org.clojure/tools.deps.alpha {:mvn/version "0.5.460"}
+    org.clojure/tools.deps.alpha {:mvn/version "0.8.677"}
     user.tools.deps.alpha        {:git/url "https://github.com/aJchemist/user.tools.deps.alpha.git" :sha "b471c9964c843fb576e56bf65f54bb3be70ce78f"}
     }}
+
+
+  :test-runner
+  {:extra-deps {com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner" :sha "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"}}
+   :main-opts  ["-m" "cognitect.test-runner" "-d" "test"]}
 
 
   :1.9
@@ -32,5 +37,5 @@
   :1.10
   {:extra-deps
    {
-    org.clojure/clojure {:mvn/version "1.10.0"}
+    org.clojure/clojure {:mvn/version "1.10.1"}
     }}}}
