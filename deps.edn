@@ -18,7 +18,8 @@
    :extra-deps
    {
     org.clojure/tools.deps.alpha {:mvn/version "0.8.677"}
-    user.tools.deps.alpha        {:git/url "https://github.com/aJchemist/user.tools.deps.alpha.git" :sha "b471c9964c843fb576e56bf65f54bb3be70ce78f"}
+    user.java.time               {:git/url "https://github.com/aJchemist/user.java.time.git" :sha "68aaf15bbef09c96dc2cb02d9e2f2a7d9e7cfd30"}
+    user.tools.deps.alpha        {:git/url "https://github.com/aJchemist/user.tools.deps.alpha.git" :sha "8271a608dd8c6ee99ab376a6cbcfcdb1c233fb86"}
     }}
 
 
