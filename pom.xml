@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>user.apache.maven.alpha</groupId>
   <artifactId>user.apache.maven.alpha</artifactId>
-  <version>2020.243.30800</version>
+  <version>2020.243.32922</version>
   <repositories>
     <repository>
       <id>clojars</id>
