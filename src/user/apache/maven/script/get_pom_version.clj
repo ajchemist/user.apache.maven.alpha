@@ -12,5 +12,5 @@
 
 (defn -main
   [& xs]
-  (let [{:keys [pom] :as parsed-opts} (cli/parse-opts xs cli-options)]
+  (let [{:keys [_pom] :as _parsed-opts} (cli/parse-opts xs cli-options)]
     (println (.getVersion (pom/read-pom "pom.xml"))))  )

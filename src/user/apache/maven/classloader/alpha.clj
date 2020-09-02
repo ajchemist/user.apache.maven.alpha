@@ -17,18 +17,18 @@
     (jio/resource path)))
 
 
-(defmulti get-version-from {:arglists '([lib from])} (fn [lib from] from))
+(defmulti get-version-from {:arglists '([lib from])} (fn [_lib from] from))
 
 
 (defmethod get-version-from "pom.properties"
-  [lib from]
+  [lib _from]
   (when-let [r (meta-inf-resource lib "pom.properties")]
     (with-open [stream (jio/input-stream r)]
       (get (doto (java.util.Properties.) (.load stream)) "version"))))
 
 
 (defmethod get-version-from "pom.xml"
-  [lib from]
+  [lib _from]
   (when-let [r (meta-inf-resource lib "pom.xml")]
     (.getVersion (pom/read-pom r))))
 

@@ -32,7 +32,7 @@ jobs:
 
 
   eastwood:
-    name: Lint with clj-kondo
+    name: Lint with eastwood
     if: false
     runs-on: ubuntu-latest
     steps:

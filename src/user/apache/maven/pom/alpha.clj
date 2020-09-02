@@ -1,15 +1,14 @@
 (ns user.apache.maven.pom.alpha
   (:require
    [clojure.java.io :as jio]
-   [clojure.string :as str]
    )
   (:import
    java.io.File
    java.io.OutputStream
    java.util.Properties
-   org.apache.maven.artifact.repository.metadata.Metadata
-   org.apache.maven.artifact.repository.metadata.io.xpp3.MetadataXpp3Reader
-   org.apache.maven.artifact.repository.metadata.io.xpp3.MetadataXpp3Writer
+   ;; org.apache.maven.artifact.repository.metadata.Metadata
+   ;; org.apache.maven.artifact.repository.metadata.io.xpp3.MetadataXpp3Reader
+   ;; org.apache.maven.artifact.repository.metadata.io.xpp3.MetadataXpp3Writer
    org.apache.maven.model.Build
    org.apache.maven.model.Dependency
    org.apache.maven.model.Exclusion
@@ -33,14 +32,14 @@
 
 (defn- model-build
   ^Build
-  [[path & paths]]
+  [[path & _paths]]
   (doto (Build.)
     (.setSourceDirectory path)))
 
 
 (defn- model-dependency
   ^Dependency
-  [[lib {:keys [mvn/version classifier exclusions] :as coord}]]
+  [[lib {:keys [mvn/version classifier exclusions] :as _coord}]]
   (doto (Dependency.)
     (.setGroupId (or (namespace lib) (name lib)))
     (.setArtifactId (name lib))
@@ -56,7 +55,7 @@
 
 (defn- model-repository
   ^Repository
-  [[^String id {:keys [^String url] :as repo}]]
+  [[^String id {:keys [^String url] :as _repo}]]
   (doto (Repository.)
     (.setId id)
     (.setUrl url)))
