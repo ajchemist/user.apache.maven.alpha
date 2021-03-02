@@ -5,6 +5,9 @@
   <groupId>user.apache.maven.alpha</groupId>
   <artifactId>user.apache.maven.alpha</artifactId>
   <version>2021.61.23842</version>
+  <scm>
+    <url>https://github.com/ajchemist/user.apache.maven.alpha</url>
+  </scm>
   <repositories>
     <repository>
       <id>clojars</id>
