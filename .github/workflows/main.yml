@@ -53,7 +53,7 @@ jobs:
 
       - name: Test runner
         env:
-          TESTOPT: "-R:${{ matrix.clojure }} -A:provided:test:test-runner"
+          TESTOPT: "-M:${{ matrix.clojure }}:provided:test:test-runner"
         run: clojure $TESTOPT
 
 
@@ -98,7 +98,9 @@ jobs:
 
 
       - name: Make package
-        run: clojure -R:1.10 -A:provided:test -m user.tools.deps.script.package -r user.apache.maven.alpha
+        run: clojure -M:1.10:provided:test -m user.tools.deps.script.package -r user.apache.maven.alpha
+      - name: Edit pom
+        run: clojure -M:1.10:provided:test -m user.apache.maven.script.edit-pom --scm-url $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
 
 
       - name: Deploy
@@ -113,7 +115,7 @@ jobs:
           git config --local user.name "aJchemist"
           git config --local user.email "1694505+aJchemist@users.noreply.github.com"
           git add -u -- pom.xml
-          git commit -m "$(clojure -A:provided:test -m user.apache.maven.script.get-pom-version) [ci skip]"
+          git commit -m "$(clojure -M:provided:test -m user.apache.maven.script.get-pom-version) [ci skip]"
           git remote -v
           git push
 
