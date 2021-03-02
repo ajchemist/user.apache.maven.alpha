@@ -22,7 +22,6 @@
           '{org.clojure/clojure     {:mvn/version "1.10.0"}
             user.apache.maven.alpha {:local/root "user.apache.maven.alpha"}}
           nil
-          nil
           nil))))
 
 

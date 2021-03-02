@@ -64,8 +64,9 @@
 (defn- model-scm
   ^Scm
   [{:keys [url]}]
-  (doto (Scm.)
-    (.setUrl url)))
+  (let [^Scm scm (Scm.)]
+    (when url (.setUrl scm ^String url))
+    scm))
 
 
 ;; * pom
@@ -142,19 +143,15 @@
 
 (defn gen-pom
   ^Model
-  [^String group-id ^String artifact-id ^String version deps paths repos scm]
-  (let [^Model model (Model.)]
-    (doto model
-      (.setModelVersion MODEL_VERSION)
-      (.setGroupId group-id)
-      (.setArtifactId artifact-id)
-      (.setVersion version)
-      (.setDependencies (map model-dependency deps))
-      (.setBuild (model-build paths))
-      (.setRepositories (map model-repository repos)))
-    (when scm
-      (.setScm model (model-scm scm)))
-    model))
+  [^String group-id ^String artifact-id ^String version deps paths repos]
+  (doto (Model.)
+    (.setModelVersion MODEL_VERSION)
+    (.setGroupId group-id)
+    (.setArtifactId artifact-id)
+    (.setVersion version)
+    (.setDependencies (map model-dependency deps))
+    (.setBuild (model-build paths))
+    (.setRepositories (map model-repository repos))))
 
 
 ;;
@@ -185,6 +182,13 @@
   ^Model
   [^Model pom repos]
   (.setRepositories pom (map model-repository repos))
+  pom)
+
+
+(defn replace-scm
+  ^Model
+  [^Model pom scm]
+  (.setScm pom (model-scm scm))
   pom)
 
 
