@@ -17,14 +17,14 @@
   {:extra-paths ["test"]
    :extra-deps
    {
-    org.clojure/tools.deps.alpha {:mvn/version "0.8.677"}
-    user.java.time               {:git/url "https://github.com/aJchemist/user.java.time.git" :sha "68aaf15bbef09c96dc2cb02d9e2f2a7d9e7cfd30"}
-    user.tools.deps.alpha        {:git/url "https://github.com/aJchemist/user.tools.deps.alpha.git" :sha "0bb3dfdc1ec037392e85629c3f4fb7171a20af1d"}
+    org.clojure/tools.deps.alpha                {:mvn/version "0.9.884"}
+    user.java.time/user.java.time               {:mvn/version "2020.267.10158"}
+    user.tools.deps.alpha/user.tools.deps.alpha {:git/url "https://github.com/aJchemist/user.tools.deps.alpha.git" :sha "1a37f7e9185e524686b58b14ddfe552fefee282e"}
     }}
 
 
   :test-runner
-  {:extra-deps {com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner" :sha "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"}}
+  {:extra-deps {com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner" :sha     "209b64504cb3bd3b99ecfec7937b358a879f55c1"}}
    :main-opts  ["-m" "cognitect.test-runner" "-d" "test"]}
 
 
@@ -38,5 +38,5 @@
   :1.10
   {:extra-deps
    {
-    org.clojure/clojure {:mvn/version "1.10.1"}
+    org.clojure/clojure {:mvn/version "1.10.2"}
     }}}}
