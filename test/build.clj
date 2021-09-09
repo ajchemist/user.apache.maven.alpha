@@ -7,7 +7,6 @@
    ))
 
 
-(def lib 'io.github.ajchemist/user.apache.maven.alpha)
 (def version (chrono-version-str))
 (def class-dir "target/classes")
 (def basis (build/create-basis {:project "deps.edn"}))
@@ -26,7 +25,7 @@
 
 
 (defn jar
-  [{:keys [scm-url]}]
+  [{:keys [lib scm-url]}]
   (build/write-pom {:class-dir class-dir
                     :lib       lib
                     :version   version
